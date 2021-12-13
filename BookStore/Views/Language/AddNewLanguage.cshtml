@@ -1,0 +1,30 @@
+﻿@model LanguageViewModel
+@{
+    ViewData["Title"] = "Add New Language";
+}
+
+
+<h1>Add New Language</h1>
+
+<form method="post" asp-action="AddNewLanguage" asp-controller="Language">
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Congratulations!</strong> You have added new book successfully.<br> Click <a asp-action="GetLanguage" asp-controller="Language" asp-route-id="@ViewBag.LanguageId">Here</a> to view the newly added book.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Add New Book</button>
+    </div>
+
+</form>

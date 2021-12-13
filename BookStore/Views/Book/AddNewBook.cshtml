@@ -1,0 +1,73 @@
+﻿@model BookViewModel
+@inject ILanguageRepository _languageRepository
+@{
+    ViewData["Title"] = "AddNewBook";
+    var languages = (await _languageRepository.GetAllLanguages()).Select(x => new SelectListItem() { Text = x.Name, Value = x.Language_Id.ToString() });
+}
+
+<h1>AddNewBook</h1>
+
+<form enctype="multipart/form-data" method="post" asp-action="AddNewBook" asp-controller="Book">
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Congratulations!</strong> You have added new book successfully.<br> Click <a asp-action="GetBook" asp-controller="Book" asp-route-id="@ViewBag.BookId">Here</a> to view the newly added book.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="form-group">
+        <label asp-for="Language"></label>
+        <select asp-for="Language" style="min-height: 1.5em" class="book_languages form-control" asp-items="@languages">
+            <option>Please select a language</option>
+        </select>
+        <span asp-validation-for="Language" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author"></label>
+        <input asp-for="Author" class="form-control" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="TotalPages"></label>
+        <input asp-for="TotalPages" class="form-control" />
+        <span asp-validation-for="TotalPages" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CoverPhoto" class="form-label">Book Cover</label>
+        <input class="form-control" asp-for="CoverPhoto" id="formFile">
+        <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BookGallery" class="form-label">Book Gallery</label>
+        <input class="form-control" asp-for="BookGallery" id="formFile" multiple>
+        <span asp-validation-for="BookGallery" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PDFBook" class="form-label">Book PDF</label>
+        <input class="form-control" asp-for="PDFBook" id="formFile">
+        <span asp-validation-for="PDFBook" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Add New Book</button>
+    </div>
+
+</form>
+
+@section Scripts{
+<script>
+    $(document).ready(function() {
+        $(".book_languages").select2({
+            placeholder: 'Select an option'});
+    });
+</script>
+}
